@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 
 import './assets/less/reset.less'
-import './assets/css/bedding.css'
+import './assets/less/mmp.less'
 
 // 自适应解决方案
 import flexible from './assets/js/flexible'

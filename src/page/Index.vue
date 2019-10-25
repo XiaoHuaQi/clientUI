@@ -1,109 +1,51 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div>
-        <div class="main">
-            <div class="l menuBar">
-                <van-sidebar v-model="activeKey" >
-                    <van-sidebar-item v-for="(item,index) in categoryList" :key="index" :title="item.text" @click="setCategory(item.value)" />
-                </van-sidebar>
-            </div>
-            <div class="l productBar">
-                <van-grid  :border="true" :column-num="2">
-                    <van-grid-item v-for="(item,index) in productList" :key="index" >
-                        <van-image :src="imgPath+item.cover" @click="opening(item.id)"/>
-                    </van-grid-item>
-                </van-grid>
-            </div>
-            <div class="clear"></div>
-        </div>
+        <banner></banner>
 
-        <div class="page">
-            <van-pagination v-model="currentPage" :page-count="pageCount" @change="handleCurrentChange"  mode="simple" />
-        </div>
-
-        <productPreview :images="images" :show="show" :title="title" ></productPreview>
+        <!--推荐公司  开始-->
+        <van-grid :gutter="2" class="mgtop20" :column-num="2">
+            <van-grid-item v-for="(item, index) in 8" :key="index">
+                <van-image src="http://47.104.202.152/ftpnginx/company/a1d06c674d62a406ddc846aad537542f.png" />
+                <van-tag plain type="primary" class="mgtop10">九木德文化传媒有限公司</van-tag>
+            </van-grid-item>
+        </van-grid>
+        <!--推荐公司  结束-->
+        <!--广告位  开始-->
+        <van-image  src="http://47.104.202.152//ftpnginx/company/a469eb2bef498bea282913ed39b8d5d6.jpg" fit="contain"  width="100%" height="100%"/>
+        <!--广告位  结束-->
+        <!--资讯  开始-->
+        <van-tabs v-model="active" animated class="mgtop20">
+            <van-tab v-for="(item, index) in 8" :key="index" :title="'选项 ' + item">
+                <van-cell-group>
+                    <van-cell class="taleft" v-for="(itemList, indexList) in 5" :key="indexList" :title="'单元格单元格单元格单元格单元格单元格单'+itemList"  />
+                </van-cell-group>
+            </van-tab>
+        </van-tabs>
+        <!--资讯  结束-->
+        <vfooter></vfooter>
     </div>
 </template>
 
 <script>
-    import productPreview from '../components/ProductPreview'
+    import banner from '../components/Banner'
+    import vfooter from '../components/Vfooter'
     export default {
         components:{
-            productPreview
+            banner,
+            vfooter
         },
         data() {
             return {
                 imgPath:localStorage.getItem('imgPath'),
-                show: false,
-                index: 0,
-                activeKey: 0,
-                categoryId:null,
-                currentPage: 1,
-                pageCount: 0,
-                pageSize:6,
-                categoryList:[],
-                productList:[],
-                productInfo:"",
-                title:"",
-                details: [],
-                images: []
+                active: 2
+
             };
         },
-
         methods: {
-            getData(){
-                this.$axios.post('/bedding/api/productList',null,{
-                    params: {
-                        categoryId:this.categoryId,
-                        pageNum:this.currentPage,
-                        pageSize:this.pageSize,
-                    }
-                }).then( res => {
-                    console.log(res.data)
-                    this.productList=res.data.data.productList.rows;
-                    this.categoryList=res.data.data.categoryList;
-                    this.currentPage=res.data.data.productList.currentPage;
-                    this.pageSize=res.data.data.productList.pageSize;
-                    this.pageCount=res.data.data.productList.pageCount;
-                });
-            },
-            getProductInfo(id){
-                this.$axios.post('/bedding/api/productInfo',null,{
-                    params: {
-                        productId:id
-                    }
-                }).then( res => {
-                    console.log(res.data);
-                    this.productInfo=res.data.data;
-                    this.title=res.data.data.title;
-                    if (this.productInfo!=null){
-                        this.details=JSON.parse(res.data.data.details);
-                    }
-                    for (var i=0;i<this.details.length;i++){
-                        this.images.push(this.imgPath+this.details[i]);
-                    }
-                });
-            },
-            setCategory(id){
-                console.log(id);
-                this.currentPage=1;
-                this.categoryId=id;
-                this.getData();
-            },
-            opening(id){
-                this.images=[];
-                this.getProductInfo(id);
-                this.show=true;
-            },
-            onPreviewClose(){
-                this.show=false;
-            },
-            handleCurrentChange(val) {
-                this.currentPage=val;
-                this.getData();
-            },
+
         },
         mounted() {
-            this.getData();
+
 
         }
     }

@@ -2,10 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Index from './page/Index'
-import ProductInfo from './page/ProductInfo'
-import Home from './page/Home'
-import Login from './page/Login'
-
+import Zodiac from './page/Zodiac'
 
 Vue.use(Router)
 const vueRouter=new Router({
@@ -16,19 +13,9 @@ const vueRouter=new Router({
             component: Index
         },
         {
-            path:'/Login',
-            name:'Login',
-            component: Login
-        },
-        {
-            path:'/ProductInfo',
-            name:'ProductInfo',
-            component: ProductInfo
-        },
-        {
-            path:'/Home',
-            name:'Home',
-            component: Home
+            path:'/zodiac',
+            name:'Zodiac',
+            component: Zodiac
         },
 
     ]
