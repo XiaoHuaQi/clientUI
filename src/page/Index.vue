@@ -14,7 +14,7 @@
         <van-image  :src="imgPath+adSite8.details" fit="contain" class="mgtop20" width="100%" height="100%"/>
         <!--广告位  结束-->
         <!--资讯  开始-->
-        <van-tabs v-model="active" animated class="mgtop20">
+        <van-tabs v-model="active" animated class="mgtop20 mgbottom50">
             <van-tab v-for="(item, index) in newsCategoryList" :key="index" :title="item.title">
                 <van-cell-group>
                     <van-cell class="taleft" v-for="(itemList, indexList) in item.params.newsList" :key="indexList" :title="itemList.title"  />
@@ -36,8 +36,8 @@
         },
         data() {
             return {
-                imgPath:localStorage.getItem('imgPath'),
-                active: 2,
+                imgPath:'http://47.104.202.152/',
+                active: 0,
                 newsCategoryList:[],
                 adSite8:{},
                 hotCompanyList:[]

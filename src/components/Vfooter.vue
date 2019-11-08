@@ -15,15 +15,18 @@
             }
         },methods: {
             goIndex() {
-                this.$router.push({
-                    path: '/Index'
-                })
+                if (this.$route.name!='Index') {
+                    this.$router.push({
+                        path: '/Index'
+                    })
+                }
             },
             goZodiac(){
-                this.$router.push({
-                    path: '/Zodiac'
-                })
-
+                if (this.$route.name!='Zodiac') {
+                    this.$router.push({
+                        path: '/Zodiac'
+                    })
+                }
             },
         },
         mounted() {

@@ -8,7 +8,7 @@
 
   export default {
     mounted: function () {
-      localStorage.setItem('imgPath', 'http://47.104.202.152/');
+      //localStorage.setItem('imgPath', 'http://47.104.202.152/');
     },
 
   }

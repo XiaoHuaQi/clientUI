@@ -18,50 +18,55 @@
             }
         },methods: {
             goCompany() {
-                this.$router.push({
-                    path: '/Company',
-                    query:{
-                        companyId:this.companyId
-                    }
-                })
+                if (this.$route.name!='Company') {
+                    this.$router.push({
+                        path: '/Company',
+                        query:{
+                            companyId:this.companyId
+                        }
+                    })
+                }
             },
             goNews(){
-                this.$router.push({
-                    path: '/News',
-                    query:{
-                        companyId:this.companyId
-                    }
-                })
-
+                if (this.$route.name!='News') {
+                    this.$router.push({
+                        path: '/News',
+                        query:{
+                            companyId:this.companyId
+                        }
+                    })
+                }
             },
             goProduct(){
-                this.$router.push({
-                    path: '/Product',
-                    query:{
-                        companyId:this.companyId
-                    }
-                })
-
+                if (this.$route.name!='Product') {
+                    this.$router.push({
+                        path: '/Product',
+                        query:{
+                            companyId:this.companyId
+                        }
+                    })
+                }
             },
             goAbout(){
-                this.$router.push({
-                    path: '/About',
-                    query:{
-                        companyId:this.companyId
-                    }
-                })
-
+                if (this.$route.name!='About') {
+                    this.$router.push({
+                        path: '/About',
+                        query:{
+                            companyId:this.companyId
+                        }
+                    })
+                }
             },
             goSuper(){
-                this.$router.push({
-                    path: '/Index'
-                })
-
+                if (this.$route.name!='Index') {
+                    this.$router.push({
+                        path: '/Index'
+                    })
+                }
             },
         },
         mounted() {
             this.companyId = this.$route.query.companyId;
-            console.log("CompanyFooter公司编号："+this.companyId)
 
         }
     }

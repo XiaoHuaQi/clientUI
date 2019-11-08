@@ -12,16 +12,20 @@
             return {
                 imgPath:'http://47.104.202.152/',
                 bannerImg: [],
+                companyId:""
             }
         },
         methods:{
 
         },mounted() {
-            this.$axios.post('/mobile/api/website',null,{
+            this.companyId = this.$route.query.companyId;
+            this.$axios.post('/company/api/website',null,{
                 params: {
-                    type:"MobileBanner"
+                    type:"MobileBanner",
+                    companyId:this.companyId
                 }
             }).then( res => {
+                //console.log(res.data.data.details);
                 this.bannerImg=JSON.parse(res.data.data.details);
             });
         }

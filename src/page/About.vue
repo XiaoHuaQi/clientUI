@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div>
-        <banner></banner>
+        <companyBanner></companyBanner>
         <!--信息  开始-->
         <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }" class="mgtop20">
             九木德文化传媒
@@ -20,18 +20,18 @@
 </template>
 
 <script>
-    import banner from '../components/Banner'
+    import companyBanner from '../components/CompanyBanner'
     import companyfooter from '../components/Companyfooter'
 
 
     export default {
         components:{
-            banner,
+            companyBanner,
             companyfooter
         },
         data() {
             return {
-                imgPath:localStorage.getItem('imgPath'),
+                imgPath:'http://47.104.202.152/',
                 categoryId:"",
                 company:{},
                 point:{"lng":118.1589172680,"lat":24.4596209088}

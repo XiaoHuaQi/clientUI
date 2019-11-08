@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div>
         <banner></banner>
-        <van-field readonly clickable label="分类" :value="categoryValue" placeholder="选择分类" @click="showPicker = true" />
+        <van-field readonly clickable label="分类" :value="categoryValue" placeholder="分类选择" @click="showPicker = true" />
 
         <van-popup v-model="showPicker"  position="bottom">
             <van-row>
@@ -56,7 +56,7 @@
         },
         data() {
             return {
-                imgPath:localStorage.getItem('imgPath'),
+                imgPath:'http://47.104.202.152/',
                 active: 2,
                 showPicker: false,
                 categoryValue: "",
@@ -204,7 +204,7 @@
             //下拉刷新
             onRefresh() {
                 this.isLoading = false;
-                this.finishedTip="正在玩命加载~"
+                this.finishedTip="正在玩命加载···"
                 if (!this.finished){
                     console.log("onRefresh");
                     this.currentPage=this.currentPage+1;
