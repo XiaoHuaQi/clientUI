@@ -31,7 +31,7 @@
             {{finishedTip}}
         </van-divider>
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-            <van-card v-for="(item, index) in productList" :key="index" :title="item.title" :thumb="imgPath+item.cover" />
+            <van-card v-for="(item, index) in productList" :key="index" :title="item.title" :thumb="imgPath+item.cover" @click="goProductInfo(item.id)"/>
         </van-pull-refresh>
         <!--广告位  结束-->
 
@@ -77,8 +77,7 @@
                 isLoading: false,//控制下拉刷新的加载动画
                 currentPage:1,
                 total:0,
-                pageSize:1,
-                totalPage: 0,
+                pageSize:10,
                 productList:[],
                 finishedTip:"下拉加载更多~",
                 companyId:""
@@ -98,8 +97,8 @@
                 }else if (this.categoryValue1!=0&&this.categoryValue1!=undefined) {
                     this.categoryIds=this.categoryValue1;
                 }
-                console.log(this.categoryValue1+" > "+this.categoryValue2+" > "+this.categoryValue3);
-                console.log(this.categoryIds);
+                /*console.log(this.categoryValue1+" > "+this.categoryValue2+" > "+this.categoryValue3);
+                console.log(this.categoryIds);*/
                 this.productList=[];
                 this.currentPage=1;
                 this.getData();
@@ -169,9 +168,12 @@
                     this.pageSize=res.data.data.productList.pageSize;
                     this.total=res.data.data.productList.total;
                     this.isLoading = false;
-                    let totalPage = (res.data.data.productList.total  +  res.data.data.productList.pageSize  - 1) / res.data.data.productList.pageSize;
+                    let totalRecord=res.data.data.productList.total;
+                    let maxResult=res.data.data.productList.pageSize;
+
+                    let totalPage =  Math.ceil(totalRecord/ maxResult);
                     this.finishedTip="下拉加载更多~";
-                    console.log(this.currentPage);
+                    console.log("总页数："+totalPage);
                     if (totalPage<=this.currentPage) {
                         this.currentPage=this.currentPage-1;
                         this.finished=true;
@@ -192,6 +194,14 @@
                 }
 
 
+            },
+            goProductInfo(id) {
+                this.$router.push({
+                    path: '/ProductInfo',
+                    query:{
+                        productId:id
+                    }
+                })
             },
         },
         mounted() {

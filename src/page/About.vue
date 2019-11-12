@@ -3,17 +3,21 @@
         <companyBanner></companyBanner>
         <!--信息  开始-->
         <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }" class="mgtop20">
-            九木德文化传媒
+            {{company.abbreviation}}
         </van-divider>
         <van-cell-group>
-            <van-cell title="全称" value="九木德文化传媒有限公司" />
-            <van-cell title="联系电话" value="13159865621" />
-            <van-cell title="Email" value="123456789@qq.com" />
-            <van-cell title="地址" value="福建省厦门市集美区集美软件园三期B区2601-4" />
+            <van-cell title="全称" :value="company.fullName" />
+            <van-cell title="联系电话" :value="company.hotline"  />
+            <van-cell title="Email" :value="company.mailbox"  />
+            <van-cell title="地址" :value="company.province+company.city+company.county"  />
+            <van-cell title="详细地址" :value="company.address"  />
         </van-cell-group>
         <!--信息  结束-->
         <!--百度地图  开始-->
-        <div class="baidumap mgtop20" id="allmap"></div>
+        <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }" class="mgtop20">
+            我们在这
+        </van-divider>
+        <div class="baidumap mgtop20 mgbottom50" id="allmap"></div>
         <!--百度地图  结束-->
         <companyfooter></companyfooter>
     </div>
@@ -38,10 +42,10 @@
             };
         },
         methods: {
-            /*baiduMap() {
+            baiduMap() {
                 var map = new BMap.Map('allmap'); // 创建地图实例
-                console.log(this.point);
-                var point = new BMap.Point(this.point.lng,this.point.lat); // 创建点坐标
+                console.log(this.company.point);
+                var point = new BMap.Point(JSON. parse(this.company.point).lng,JSON. parse(this.company.point).lat); // 创建点坐标
 
                 map.centerAndZoom(point, 15); // 初始化地图，设置中心点坐标和地图级别
                 map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
@@ -69,12 +73,21 @@
                 marker.addEventListener('mouseout', function() {
                     this.closeInfoWindow(infoWindow)
                 });
-            }*/
+            }
 
         },
         mounted() {
             this.companyId = this.$route.query.companyId;
             console.log("公司编号："+this.companyId);
+            this.$axios.post('/company/api/companyInfo',null,{
+                params: {
+                    companyId:this.companyId
+                }
+            }).then( res => {
+                console.log(res.data.data);
+                this.company=res.data.data;
+                this.baiduMap();
+            });
             //this.baiduMap();
         }
     }

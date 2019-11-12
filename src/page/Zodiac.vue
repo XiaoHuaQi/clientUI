@@ -30,9 +30,9 @@
         <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">
             {{finishedTip}}
         </van-divider>
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-            <van-cell v-for="(item, index) in companyList" :key="index"  :class="(index==companyList.length-1)&&(companyList.length%2!=0)? 'zodiacCellCl':'zodiacCellFl'">
-                <van-image :src="imgPath+item.logo" />
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh" class="mgbottom50">
+            <van-cell v-for="(item, index) in companyList" :key="index"  :class="(index==companyList.length-1)&&(companyList.length%2!=0)? 'zodiacCellCl':'zodiacCellFl'" @click="goCompany(item.id)">
+                <van-image :src="imgPath+item.logo" class="zodiacLogo"/>
                 <van-tag plain type="primary" class="mgtop10">{{item.fullName}}</van-tag>
             </van-cell>
         </van-pull-refresh>
@@ -82,7 +82,7 @@
                 isLoading: false,//控制下拉刷新的加载动画
                 currentPage:1,
                 total:0,
-                pageSize:1,
+                pageSize:8,
                 totalPage: 0,
                 companyList:[],
                 finishedTip:"下拉加载更多~"
@@ -176,6 +176,14 @@
 
                     });
             },
+            goCompany(id) {
+                this.$router.push({
+                    path: '/Company',
+                    query:{
+                        companyId:id
+                    }
+                })
+            },
             getData(){
 
                 this.$axios.post('/mobile/api/companyPage',null,{
@@ -191,7 +199,10 @@
                     this.pageSize=res.data.data.pageSize;
                     this.total=res.data.data.total;
                     this.isLoading = false;
-                    let totalPage = (res.data.data.total  +  res.data.data.pageSize  - 1) / res.data.data.pageSize;
+                    let totalRecord=res.data.data.total;
+                    let maxResult=res.data.data.pageSize;
+
+                    let totalPage =  Math.ceil(totalRecord/ maxResult);
                     this.finishedTip="下拉加载更多~";
                     console.log(this.currentPage);
                     if (totalPage<=this.currentPage) {

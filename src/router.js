@@ -5,7 +5,9 @@ import Index from './page/Index'
 import Zodiac from './page/Zodiac'
 import Company from './page/Company'
 import News from './page/News'
+import NewsInfo from './page/NewsInfo'
 import Product from './page/Product'
+import ProductInfo from './page/ProductInfo'
 import About from './page/About'
 
 Vue.use(Router)
@@ -18,7 +20,7 @@ const vueRouter=new Router({
         },
         {
             path:'/Index',
-            name:'IndexHome',
+            name:'Index',
             component: Index
         },
         {
@@ -37,9 +39,19 @@ const vueRouter=new Router({
             component: News
         },
         {
+            path:'/newsInfo',
+            name:'NewsInfo',
+            component: NewsInfo
+        },
+        {
             path:'/product',
             name:'Product',
             component: Product
+        },
+        {
+            path:'/productInfo',
+            name:'ProductInfo',
+            component: ProductInfo
         },
         {
             path:'/about',

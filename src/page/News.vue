@@ -21,7 +21,7 @@
                     {{finishedTip}}
                 </van-divider>
                 <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-                    <van-cell v-for="(item, index) in newsList" :key="index" :title="'▶ '+item.title" class="newTitle" ></van-cell>
+                    <van-cell v-for="(item, index) in newsList" :key="index" :title="'▶ '+item.title" class="newTitle" @click="goNewsInfo(item.id)"  ></van-cell>
                 </van-pull-refresh>
                 <!--新闻列表  结束-->
 
@@ -59,18 +59,12 @@
                 currentPage:"1",
                 categoryId:"",
                 companyId:"",
-                pageSize:"10",
+                pageSize:"1",
                 finishedTip:"下拉加载更多~",
                 isLoadCategory:false
             };
         },
         methods: {
-            onClickLeft() {
-                console.log('返回');
-            },
-            onClickRight() {
-                console.log('按钮');
-            },
             setCategory(id){
                 this.categoryId=id;
                 if (id==0){
@@ -90,6 +84,7 @@
                         pageSize:this.pageSize
                     }
                 }).then( res => {
+                    //console.log(res.data.data)
                     this.newsList.unshift.apply(this.newsList,res.data.data.newsList.rows);
                     if (!this.isLoadCategory){
                         this.categoryList.push.apply(this.categoryList,res.data.data.categoryList);
@@ -99,7 +94,10 @@
                     this.pageSize=res.data.data.newsList.pageSize;
                     this.total=res.data.data.newsList.total;
                     this.isLoading = false;
-                    let totalPage = (res.data.data.newsList.total  +  res.data.data.newsList.pageSize  - 1) / res.data.data.newsList.pageSize;
+                    let totalRecord=res.data.data.newsList.total;
+                    let maxResult=res.data.data.newsList.pageSize;
+
+                    let totalPage =  Math.ceil(totalRecord/ maxResult);
                     this.finishedTip="下拉加载更多~";
                     if (totalPage<=this.currentPage) {
                         this.currentPage=this.currentPage-1;
@@ -121,7 +119,14 @@
 
 
             },
-
+            goNewsInfo(id) {
+                this.$router.push({
+                    path: '/NewsInfo',
+                    query:{
+                        newsId:id
+                    }
+                })
+            },
         },
         mounted() {
             this.companyId = this.$route.query.companyId;

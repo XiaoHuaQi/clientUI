@@ -6,7 +6,7 @@
         <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">
             商品推荐
         </van-divider>
-        <van-card v-for="(item, index) in productList" :key="index" :title="item.title" :thumb="imgPath+item.cover" />
+        <van-card v-for="(item, index) in productList" :key="index" :title="item.title" :thumb="imgPath+item.cover"  @click="goProductInfo(item.id)"/>
         <!--推荐公司  结束-->
         <!--广告位  开始-->
         <!--<van-image  src="http://47.104.202.152//ftpnginx/company/a469eb2bef498bea282913ed39b8d5d6.jpg" fit="contain"  width="100%" height="100%"/>-->
@@ -18,7 +18,7 @@
         <van-tabs v-model="active" animated class="mgtop20 mgbottom50">
             <van-tab v-for="(item, index) in newsCategoryList" :key="index" :title="item.title">
                 <van-cell-group>
-                    <van-cell class="taleft" v-for="(itemList, indexList) in item.params.newsList" :key="indexList" :title="itemList.title"  />
+                    <van-cell class="taleft" v-for="(itemList, indexList) in item.params.newsList" :key="indexList" :title="itemList.title" @click="goNewsInfo(itemList.id)"  />
                 </van-cell-group>
             </van-tab>
         </van-tabs>
@@ -56,7 +56,23 @@
                         this.productList=res.data.data.productList;
 
                     });
-            }
+            },
+            goNewsInfo(id) {
+                this.$router.push({
+                    path: '/NewsInfo',
+                    query:{
+                        newsId:id
+                    }
+                })
+            },
+            goProductInfo(id) {
+                this.$router.push({
+                    path: '/ProductInfo',
+                    query:{
+                        productId:id
+                    }
+                })
+            },
         },
         mounted() {
             this.companyId = this.$route.query.companyId;

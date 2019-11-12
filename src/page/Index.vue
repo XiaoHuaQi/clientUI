@@ -17,7 +17,7 @@
         <van-tabs v-model="active" animated class="mgtop20 mgbottom50">
             <van-tab v-for="(item, index) in newsCategoryList" :key="index" :title="item.title">
                 <van-cell-group>
-                    <van-cell class="taleft" v-for="(itemList, indexList) in item.params.newsList" :key="indexList" :title="itemList.title"  />
+                    <van-cell class="taleft" v-for="(itemList, indexList) in item.params.newsList" :key="indexList" :title="itemList.title"  @click="goNewsInfo(itemList.id)" />
                 </van-cell-group>
             </van-tab>
         </van-tabs>
@@ -50,6 +50,14 @@
                     path: '/Company',
                     query:{
                         companyId:id
+                    }
+                })
+            },
+            goNewsInfo(id) {
+                this.$router.push({
+                    path: '/NewsInfo',
+                    query:{
+                        newsId:id
                     }
                 })
             },

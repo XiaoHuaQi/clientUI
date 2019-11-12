@@ -60,7 +60,7 @@
             goSuper(){
                 if (this.$route.name!='Index') {
                     this.$router.push({
-                        path: '/Index'
+                        path: '/Index',
                     })
                 }
             },

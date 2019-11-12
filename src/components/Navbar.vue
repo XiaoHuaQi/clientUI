@@ -1,5 +1,5 @@
 <template>
-    <van-nav-bar class="backLine" title="标题" left-text="返回"  right-text="保存" left-arrow @click-left="onClickLeft" @click-right="onClickRight"></van-nav-bar>
+    <van-nav-bar class="backLine" left-text="返回"   left-arrow @click-left="onClickLeft" ></van-nav-bar>
 </template>
 
 <script>
@@ -7,9 +7,7 @@
         methods: {
             onClickLeft() {
                 console.log('返回');
-            },
-            onClickRight() {
-                console.log('按钮');
+                history.back();
             }
         }
     }
