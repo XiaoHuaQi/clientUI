@@ -1,17 +1,16 @@
 <template>
-    <van-goods-action>
-        <van-goods-action-icon class="footerBtn" icon="wap-home-o" text="首页" @click="goIndex" />
-        <van-goods-action-icon class="footerBtn" icon="friends-o" text="合作伙伴" @click="goZodiac" />
-        <!--<van-goods-action-button type="warning" text="加入购物车" @click="onClickButton" />
-        <van-goods-action-button type="danger" text="立即购买" @click="onClickButton" />-->
-    </van-goods-action>
+    <van-tabbar v-model="active">
+        <van-tabbar-item name="Index" icon="wap-home-o" @click="goIndex" >首页</van-tabbar-item>
+        <van-tabbar-item name="Video" icon="video-o" @click="goVideo">教学视频</van-tabbar-item>
+        <van-tabbar-item name="Zodiac" icon="friends-o"  @click="goZodiac">合作伙伴</van-tabbar-item>
+    </van-tabbar>
 </template>
 
 <script>
     export default {
         data() {
             return {
-
+                active: "Index",
             }
         },methods: {
             goIndex() {
@@ -28,10 +27,16 @@
                     })
                 }
             },
+            goVideo(){
+                if (this.$route.name!='Video') {
+                    this.$router.push({
+                        path: '/Video'
+                    })
+                }
+            },
         },
         mounted() {
-            console.log(this.$route.name)
-
+            this.active=this.$route.name;
         }
     }
 </script>

@@ -16,6 +16,11 @@ Vue.use(Vant);
 import VueClipboard from 'vue-clipboard2';
 Vue.use(VueClipboard);
 
+import VideoPlayer from 'vue-video-player'
+import 'vue-video-player/src/custom-theme.css'
+import 'video.js/dist/video-js.css'
+Vue.use(VideoPlayer);
+
 import router from './router';
 
 import request from './request'

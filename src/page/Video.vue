@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div>
-        <companyBanner></companyBanner>
+        <banner></banner>
         <van-row class="mgbottom40">
             <van-col span="6">
 
@@ -21,7 +21,13 @@
                     {{finishedTip}}
                 </van-divider>
                 <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-                    <van-cell v-for="(item, index) in newsList" :key="index" :title="'▶ '+item.title" class="newTitle" @click="goNewsInfo(item.id)"  ></van-cell>
+                    <!--<van-cell v-for="(item, index) in videoList" :key="index" :title="'▶ '+item.name" class="newTitle" @click="goNewsInfo(item.id)"  ></van-cell>-->
+                    <van-grid :border="false" :column-num="1">
+                        <van-grid-item v-for="(item, index) in videoList" :key="index" @click="goVideoInfo(item.id)">
+                            <van-image :src="imgPath+item.cover" />
+                            <van-tag plain type="primary" class="mgtop10">{{item.name}}</van-tag>
+                        </van-grid-item>
+                    </van-grid>
                 </van-pull-refresh>
                 <!--新闻列表  结束-->
 
@@ -30,19 +36,19 @@
 
 
         <!--资讯  结束-->
-        <companyfooter></companyfooter>
+        <Vfooter></Vfooter>
     </div>
 </template>
 
 <script>
-    import companyBanner from '../components/CompanyBanner'
-    import companyfooter from '../components/Companyfooter'
+    import Banner from '../components/Banner'
+    import Vfooter from '../components/Vfooter'
 
 
     export default {
         components:{
-            companyBanner,
-            companyfooter
+            Banner,
+            Vfooter
         },
         data() {
             return {
@@ -51,17 +57,15 @@
                 showPicker: false,
                 activeKey: 0,
                 value: "",
-                categoryList:[{"title":"全部资讯","id":0}],
-                newsList: [],
+                categoryList:[{"title":"全部视频","id":0}],
+                videoList: [],
                 loading: false,//控制上拉加载的加载动画
                 finished: false,//控制在页面往下移动到底部时是否调用接口获取数据
                 isLoading: false,//控制下拉刷新的加载动画
-                currentPage:"1",
+                currentPage:1,
                 categoryId:"",
-                companyId:"",
-                pageSize:"1",
+                pageSize:5,
                 finishedTip:"下拉加载更多~",
-                isLoadCategory:false
             };
         },
         methods: {
@@ -70,32 +74,27 @@
                 if (id==0){
                     this.categoryId="";
                 }
-                this.newsList=[];
+                this.videoList=[];
                 this.currentPage=1;
                 this.getData();
             },
             getData(){
                // this.categoryList=[{"title":"全部资讯","id":0}];
-                this.$axios.post('/company/api/news',null,{
+                this.$axios.post('/boss/api/videoPage',null,{
                     params: {
                         categoryId: this.categoryId,
-                        companyId: this.companyId,
                         pageNum: this.currentPage,
                         pageSize:this.pageSize
                     }
                 }).then( res => {
                     //console.log(res.data.data)
-                    this.newsList.unshift.apply(this.newsList,res.data.data.newsList.rows);
-                    if (!this.isLoadCategory){
-                        this.categoryList.push.apply(this.categoryList,res.data.data.categoryList);
-                        this.isLoadCategory=true;
-                    }
-                    this.currentPage=res.data.data.newsList.currentPage;
-                    this.pageSize=res.data.data.newsList.pageSize;
-                    this.total=res.data.data.newsList.total;
+                    this.videoList.unshift.apply(this.videoList,res.data.data.rows);
+                    this.currentPage=res.data.data.currentPage;
+                    this.pageSize=res.data.data.pageSize;
+                    this.total=res.data.data.total;
                     this.isLoading = false;
-                    let totalRecord=res.data.data.newsList.total;
-                    let maxResult=res.data.data.newsList.pageSize;
+                    let totalRecord=res.data.data.total;
+                    let maxResult=res.data.data.pageSize;
 
                     let totalPage =  Math.ceil(totalRecord/ maxResult);
                     this.finishedTip="下拉加载更多~";
@@ -119,17 +118,26 @@
 
 
             },
-            goNewsInfo(id) {
+            goVideoInfo(id) {
                 this.$router.push({
-                    path: '/NewsInfo',
+                    path: '/VideoInfo',
                     query:{
-                        newsId:id
+                        videoId:id
                     }
                 })
             },
+            getCategoryData(){
+                this.$axios.post('/boss/api/videoCategory',null,{
+                    params: {
+
+                    }
+                }).then( res => {
+                    this.categoryList.push.apply(this.categoryList,res.data.data);
+                });
+            },
         },
         mounted() {
-            this.companyId = this.$route.query.companyId;
+            this.getCategoryData();
             this.getData();
         }
     }

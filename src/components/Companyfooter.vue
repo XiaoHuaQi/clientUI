@@ -1,13 +1,11 @@
 <template>
-    <van-goods-action>
-        <van-goods-action-icon class="footerBtn" icon="wap-home-o" text="首页" @click="goCompany" />
-        <van-goods-action-icon class="footerBtn" icon="comment-o" text="资讯" @click="goNews" />
-        <van-goods-action-icon class="footerBtn" icon="apps-o" text="产品" @click="goProduct" />
-        <van-goods-action-icon class="footerBtn" icon="like-o" text="关于我们" @click="goAbout" />
-        <van-goods-action-icon class="footerBtn" icon="star-o" text="官网" @click="goSuper" />
-        <!--<van-goods-action-button type="warning" text="加入购物车" @click="onClickButton" />
-        <van-goods-action-button type="danger" text="立即购买" @click="onClickButton" />-->
-    </van-goods-action>
+    <van-tabbar v-model="active">
+        <van-tabbar-item name="Company" icon="wap-home-o" @click="goCompany" >首页</van-tabbar-item>
+        <van-tabbar-item name="News" icon="comment-o" @click="goNews">资讯</van-tabbar-item>
+        <van-tabbar-item name="Product" icon="apps-o"  @click="goProduct">产品</van-tabbar-item>
+        <van-tabbar-item name="About" icon="like-o"  @click="goAbout">关于我们</van-tabbar-item>
+        <van-tabbar-item name="Index" icon="star-o"  @click="goSuper">官网</van-tabbar-item>
+    </van-tabbar>
 </template>
 
 <script>
@@ -15,6 +13,7 @@
         data() {
             return {
                 companyId:0,
+                active: "Company",
             }
         },methods: {
             goCompany() {
@@ -67,7 +66,7 @@
         },
         mounted() {
             this.companyId = this.$route.query.companyId;
-
+            this.active=this.$route.name;
         }
     }
 </script>

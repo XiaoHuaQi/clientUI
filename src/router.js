@@ -9,6 +9,8 @@ import NewsInfo from './page/NewsInfo'
 import Product from './page/Product'
 import ProductInfo from './page/ProductInfo'
 import About from './page/About'
+import Video from './page/Video'
+import VideoInfo from './page/VideoInfo'
 
 Vue.use(Router)
 const vueRouter=new Router({
@@ -52,6 +54,16 @@ const vueRouter=new Router({
             path:'/productInfo',
             name:'ProductInfo',
             component: ProductInfo
+        },
+        {
+            path:'/video',
+            name:'Video',
+            component: Video
+        },
+        {
+            path:'/videoInfo',
+            name:'VideoInfo',
+            component: VideoInfo
         },
         {
             path:'/about',
